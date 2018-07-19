@@ -5,8 +5,8 @@ import mongoose from "mongoose";
 
 
 // Controllers (route handlers)
-import UserController from "./controllers/user";
-const userController = new UserController();
+import ClientController from "./controllers/client";
+const clientController = new ClientController();
 
 // Create Express server
 const app = express();
@@ -24,12 +24,18 @@ mongoose.connect(mongoUrl, {useMongoClient: true}).then(() => { /** ready to use
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /**
  * Primary app routes.
  */
-app.get("/users", userController.getUsers);
-app.post("/addUser", userController.addNewUser);
+app.get("/deleteAllClients", clientController.deleteAllClients);
+app.get("/clients", clientController.getAllClients);
+app.get("/loadClimbingNow", clientController.loadClimbingNow);
+app.get("/client/:clientId", clientController.getClientWithID);
+app.post("/addClient", clientController.addNewClient);
+app.post("/updateClient", clientController.updateClient);
+app.post("/deleteClient", clientController.deleteClient);
+
 
 export default app;
