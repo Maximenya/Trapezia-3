@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const clientSchema = new mongoose.Schema({
+const clientSchema = new Schema({
     phone: {type: String},
     firstName: {type: String},
     middleName: {type: String},
@@ -16,5 +16,5 @@ const clientSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-const Client = mongoose.model("Client", clientSchema);
+const Client = model("Client", clientSchema);
 export default Client;

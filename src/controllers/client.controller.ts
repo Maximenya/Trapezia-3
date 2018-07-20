@@ -1,8 +1,7 @@
-import { default as Client } from "../models/Client";
+import Client from "../models/client.model";
 import { Request, Response } from "express";
 
-export default class ClientController {
-
+const ClientController = {
 
     /* {
          "phone": "+3333333333",
@@ -17,7 +16,7 @@ export default class ClientController {
          "knowFrom": "",
          "parentAgreed": ""
      } */
-    public addNewClient(req: Request, res: Response) {
+    addNewClient: function(req: Request, res: Response) {
         const newClient = new Client(req.body);
 
         newClient.save((err, client) => {
@@ -26,54 +25,54 @@ export default class ClientController {
             }
             res.json(client);
         });
-    }
+    },
 
-    public getClientWithID(req: Request, res: Response) {
+    getClientWithID: function(req: Request, res: Response) {
         Client.findById(req.params.clientId, (err, client) => {
             if (err) {
                 res.send(err);
             }
             res.json(client);
         });
-    }
+    },
 
-    public getAllClients(_req: Request, res: Response) {
+    getAllClients: function(_req: Request, res: Response) {
         Client.find({}, (err, client) => {
             if (err) {
                 res.send(err);
             }
             res.json(client);
         });
-    }
+    },
 
-    public updateClient(req: Request, res: Response) {
-        Client.findOneAndUpdate({ _id: req.body.clientId }, req.body, { new: true }, (err, client) => {
+    updateClient: function(req: Request, res: Response) {
+        Client.findOneAndUpdate({ _id: req.params.clientId }, req.body, { new: true }, (err, client) => {
             if (err) {
                 res.send(err);
             }
             res.json(client);
         });
-    }
+    },
 
-    public deleteClient(req: Request, res: Response) {
-        Client.remove({ _id: req.body.clientId }, (err) => {
+    deleteClient: function(req: Request, res: Response) {
+        Client.remove({ _id: req.params.clientId }, (err) => {
             if (err) {
                 res.send(err);
             }
             res.json({ message: "Successfully deleted client!"});
         });
-    }
+    },
 
-    public deleteAllClients(_req: Request, res: Response) {
+    deleteAllClients: function(_req: Request, res: Response) {
         Client.remove({}, (err) => {
             if (err) {
                 res.send(err);
             }
             res.json({ message: "Successfully deleted all clients!"});
         });
-    }
+    },
 
-    public loadClimbingNow(_req: Request, res: Response) {
+    loadClimbingNow: function(_req: Request, res: Response) {
         Client.find({}, (err, client) => {
             if (err) {
                 res.send(err);
@@ -82,5 +81,6 @@ export default class ClientController {
         });
     }
 
+};
 
-}
+export default ClientController;

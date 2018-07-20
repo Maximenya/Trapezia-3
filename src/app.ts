@@ -1,12 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import * as path from "path";
+import router from "./routes/index.route";
 import mongoose from "mongoose";
-
-
-// Controllers (route handlers)
-import ClientController from "./controllers/client";
-const clientController = new ClientController();
 
 // Create Express server
 const app = express();
@@ -29,13 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /**
  * Primary app routes.
  */
-app.get("/deleteAllClients", clientController.deleteAllClients);
-app.get("/clients", clientController.getAllClients);
-app.get("/loadClimbingNow", clientController.loadClimbingNow);
-app.get("/client/:clientId", clientController.getClientWithID);
-app.post("/addClient", clientController.addNewClient);
-app.post("/updateClient", clientController.updateClient);
-app.post("/deleteClient", clientController.deleteClient);
+app.use("/", router);
 
 
 export default app;
