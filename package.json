@@ -2,7 +2,7 @@
   "name": "Trapezia-3",
   "version": "0.1.0",
   "scripts": {
-    "start": "npm run serve",
+    "start": "npm run build && npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "serve": "node dist/server.js",
     "build-ts": "tsc",
