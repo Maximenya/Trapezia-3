@@ -40,8 +40,8 @@ const ClientSchema = new Schema({
     sex: {type: String},
     knowFrom: {type: String},
     parentAgreed: {type: Boolean},
-    subscriptions: {type: SubscriptionSchema},
-    serviceHistory: {type: ServiceHistorySchema}
+    subscriptions: [SubscriptionSchema],
+    serviceHistory: [ServiceHistorySchema]
 
 }, { timestamps: true });
 
