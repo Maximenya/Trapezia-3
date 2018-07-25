@@ -18,7 +18,7 @@ const RentSchema = new Schema({
     griGri: {type: Number}
 });
 
-const ServiceHistorySchema = new Schema({
+const VisitSchema = new Schema({
     type: {type: Number},
     checkIn: {type: Number},
     checkOut: {type: Number},
@@ -41,7 +41,7 @@ const ClientSchema = new Schema({
     knowFrom: {type: String},
     parentAgreed: {type: Boolean},
     subscriptions: [SubscriptionSchema],
-    serviceHistory: [ServiceHistorySchema]
+    visitsHistory: [VisitSchema]
 
 }, { timestamps: true });
 
