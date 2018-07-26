@@ -1,13 +1,28 @@
 import { Schema, model } from "mongoose";
 
 const SubscriptionSchema = new Schema({
-    type: {type: Number},
-    saleTime: {type: Date},
-    firstDate: {type: Date},
-    lastDate: {type: Date},
-    counter: {type: Number},
-    current: {type: Number},
-    fancyName: {type: String}
+    type: {
+        type: Number,
+        required: [true, "Subscription type is required."]
+    },
+    saleTime: {
+        type: Date,
+        required: [true, "Subscription saleTime is required."],
+        default: Date.now
+    },
+    firstDate: {
+        type: Date,
+        required: [true, "Subscription firstDate is required."],
+        default: Date.now
+    },
+    lastDate: {
+        type: Date,
+        required: [true, "Subscription lastDate is required."]
+    },
+    counter: {
+        type: Number,
+        required: [true, "Subscription counter is required."]
+    }
 });
 
 const RentSchema = new Schema({
@@ -19,12 +34,22 @@ const RentSchema = new Schema({
 });
 
 const VisitSchema = new Schema({
-    type: {type: Number},
-    checkIn: {type: Number},
+    type: {
+        type: Number,
+        required: [true, "Visit type is required."]
+    },
+    checkIn: {
+        type: Number,
+        required: [true, "Visit checkIn is required."],
+        default: Date.now
+    },
     checkOut: {type: Number},
     keyNumber: {type: Number},
-    saleTime: {type: Number},
-    fancyName: {type: Number},
+    saleTime: {
+        type: Number,
+        required: [true, "Visit saleTime is required."],
+        default: Date.now
+    },
     rent: {type: RentSchema}
 });
 
