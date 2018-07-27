@@ -1,10 +1,10 @@
 import { Router } from "express";
 import visitController from "../controllers/visit.controller";
 
-const router = Router(); // eslint-disable-line new-cap
+const router = Router();
 
-router.route("/")
-/** GET /api/users - Get list of users */
+router.route("/:clientId")
+/** POST /visits - add new visit to client */
     .post(visitController.addNewVisit);
 
 

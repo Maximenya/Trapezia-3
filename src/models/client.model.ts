@@ -3,7 +3,8 @@ import { Schema, model } from "mongoose";
 const SubscriptionSchema = new Schema({
     type: {
         type: Number,
-        required: [true, "Subscription type is required."]
+        required: [true, "Subscription type is required."],
+        enum: [21, 22, 23, 24, 25, 26]
     },
     saleTime: {
         type: Date,
@@ -26,24 +27,31 @@ const SubscriptionSchema = new Schema({
 });
 
 const RentSchema = new Schema({
-    climbingShoes: {type: Number},
-    harness: {type: Number},
-    magnesia: {type: Number},
-    carabine: {type: Number},
-    griGri: {type: Number}
+    climbingShoes: {type: Number, default: 0},
+    harness: {type: Number, default: 0},
+    magnesia: {type: Number, default: 0},
+    carabine: {type: Number, default: 0},
+    griGri: {type: Number, default: 0}
 });
 
 const VisitSchema = new Schema({
     type: {
         type: Number,
-        required: [true, "Visit type is required."]
+        validate : {
+            validator : (value: number) =>  {
+                return [11, 13, 14, 15, 16, 17, 18, 19, 20].indexOf(value) > 0;
+            },
+            message: "{VALUE} is unknown type."
+        },
+        required: [true, "Visit type is required."],
+
     },
     checkIn: {
-        type: Number,
+        type: Date,
         required: [true, "Visit checkIn is required."],
         default: Date.now
     },
-    checkOut: {type: Number},
+    checkOut: {type: Date},
     keyNumber: {type: Number},
     saleTime: {
         type: Number,
@@ -55,20 +63,29 @@ const VisitSchema = new Schema({
 
 const ClientSchema = new Schema({
     phone: {type: String},
-    firstName: {type: String},
+    firstName: {
+        type: String,
+        required: [true, "Client firstName is required."]
+    },
     middleName: {type: String},
-    lastName: {type: String},
+    lastName: {
+        type: String,
+        required: [true, "Client lastName is required."]
+    },
     email: {type: String},
     birthDate: {type: Date},
     document: {type: String},
     registrationDate: {type: Date},
     sex: {type: String},
     knowFrom: {type: String},
-    parentAgreed: {type: Boolean},
+    parentAgreed: {
+        type: Boolean,
+        default: Date.now
+    },
     subscriptions: [SubscriptionSchema],
     visitsHistory: [VisitSchema]
 
-}, { timestamps: true });
+}, {timestamps: true});
 
 
 const Client = model("Client", ClientSchema);
