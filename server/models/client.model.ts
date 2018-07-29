@@ -1,10 +1,10 @@
 import { Schema, model } from "mongoose";
+import config from "config";
 
 const SubscriptionSchema = new Schema({
-    type: {
+    subscriptionType: {
         type: Number,
-        required: [true, "Subscription type is required."],
-        enum: [21, 22, 23, 24, 25, 26]
+        required: [true, "Subscription type is required."]
     },
     saleTime: {
         type: Date,
@@ -26,6 +26,11 @@ const SubscriptionSchema = new Schema({
     }
 });
 
+SubscriptionSchema.path("subscriptionType").validate(function(type: number) {
+    const subscriptionTypes: [number] = config.get("client.model.subscriptionTypes");
+    return subscriptionTypes.indexOf(type) !== -1;
+}, "Unknown type provided.");
+
 const RentSchema = new Schema({
     climbingShoes: {type: Number, default: 0},
     harness: {type: Number, default: 0},
@@ -35,14 +40,8 @@ const RentSchema = new Schema({
 });
 
 const VisitSchema = new Schema({
-    type: {
+    visitType: {
         type: Number,
-        validate : {
-            validator : (value: number) =>  {
-                return [11, 13, 14, 15, 16, 17, 18, 19, 20].indexOf(value) > 0;
-            },
-            message: "{VALUE} is unknown type."
-        },
         required: [true, "Visit type is required."],
 
     },
@@ -54,12 +53,17 @@ const VisitSchema = new Schema({
     checkOut: {type: Date},
     keyNumber: {type: Number},
     saleTime: {
-        type: Number,
+        type: Date,
         required: [true, "Visit saleTime is required."],
         default: Date.now
     },
     rent: {type: RentSchema}
 });
+
+VisitSchema.path("visitType").validate(function(type: number) {
+    const visitTypes: [number] = config.get("client.model.visitTypes");
+    return visitTypes.indexOf(type) !== -1;
+}, "Unknown type provided.");
 
 const ClientSchema = new Schema({
     phone: {type: String},

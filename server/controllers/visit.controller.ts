@@ -9,7 +9,7 @@ const VisitController = {
     "checkIn": "11/20/2018 16:11",
     "checkOut": "1/20/2018 17:11",
     "keyNumber": "22",
-    "saleTime": "",
+    "saleTime": "1/20/2018 16:11",
     "rent": {
         "climbingShoes": "0",
         "harness": "0",
@@ -22,12 +22,15 @@ const VisitController = {
 
     addNewVisit: function (req: Request, res: Response) {
         const newVisit = req.body;
-        Client.findOneAndUpdate({_id: req.params.clientId}, {$push: {visitsHistory: newVisit}}, (err, client) => {
-            if (err) {
-                res.send(err);
-            }
-            res.json(client);
-        });
+        Client.findOneAndUpdate({_id: req.params.clientId},
+            {$push: {visitsHistory: newVisit}},
+            {runValidators: true},
+            (err, client) => {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(client);
+            });
     },
 
 };
