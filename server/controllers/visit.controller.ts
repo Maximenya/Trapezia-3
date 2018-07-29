@@ -33,6 +33,26 @@ const VisitController = {
             });
     },
 
+    finishVisit: function (req: Request, res: Response) {
+        Client.findOneAndUpdate({_id: req.params.clientId, "visitsHistory.checkOut": undefined},
+            { $set: { "visitsHistory.$.checkOut" : req.body.checkOut } },
+            (err: any, client: any) => {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(client);
+            });
+    },
+
+    loadClimbingNow: function(_req: Request, res: Response) {
+        Client.find({ "visitsHistory.checkOut": undefined }, (err, clients) => {
+            if (err) {
+                res.send(err);
+            }
+            res.json(clients);
+        });
+    }
+
 };
 
 export default VisitController;

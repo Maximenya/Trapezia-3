@@ -70,15 +70,6 @@ const ClientController = {
             }
             res.json({ message: "Successfully deleted all clients!"});
         });
-    },
-
-    loadClimbingNow: function(_req: Request, res: Response) {
-        Client.find({}, (err, client) => {
-            if (err) {
-                res.send(err);
-            }
-            res.json(client);
-        });
     }
 
 };
