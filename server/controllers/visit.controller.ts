@@ -1,11 +1,12 @@
 import Client from "../models/client.model";
 import { Request, Response } from "express";
 
+const TYPE_SUBSCRIPTION = 20;
 const VisitController = {
 
     /*
     {
-    "type": "11",
+    "visitType": "11",
     "checkIn": "11/20/2018 16:11",
     "checkOut": "1/20/2018 17:11",
     "keyNumber": "22",
@@ -22,14 +23,23 @@ const VisitController = {
 
     addNewVisit: function (req: Request, res: Response) {
         const newVisit = req.body;
+        const subscriptionId = req.body.subscriptionId;
         Client.findOneAndUpdate({_id: req.params.clientId},
             {$push: {visitsHistory: newVisit}},
             {runValidators: true},
-            (err, client) => {
+            (err, client: any) => {
                 if (err) {
                     res.send(err);
+                } else if (client && client.subscriptions) {
+                    if (newVisit.visitType === TYPE_SUBSCRIPTION) {
+                        client.subscriptions.forEach((element: any) => {
+                            if (element._id === subscriptionId) {
+                                element.counter--;
+                            }
+                        });
+                        client.save();
+                    }
                 }
-                res.json(client);
             });
     },
 
