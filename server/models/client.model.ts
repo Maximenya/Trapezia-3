@@ -40,10 +40,12 @@ const RentSchema = new Schema({
 });
 
 const VisitSchema = new Schema({
+    subscriptionId: {
+        type: String,
+    },
     visitType: {
         type: Number,
         required: [true, "Visit type is required."],
-
     },
     checkIn: {
         type: Date,
@@ -84,7 +86,7 @@ const ClientSchema = new Schema({
     knowFrom: {type: String},
     parentAgreed: {
         type: Boolean,
-        default: Date.now
+        default: false
     },
     subscriptions: [SubscriptionSchema],
     visitsHistory: [VisitSchema]

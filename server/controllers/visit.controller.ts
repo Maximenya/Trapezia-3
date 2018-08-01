@@ -32,12 +32,17 @@ const VisitController = {
                     res.send(err);
                 } else if (client && client.subscriptions) {
                     if (newVisit.visitType === TYPE_SUBSCRIPTION) {
-                        client.subscriptions.forEach((element: any) => {
-                            if (element._id === subscriptionId) {
-                                element.counter--;
-                            }
+                        const currentSubscription = client.subscriptions.find((element: any) => {
+                           return element._id == subscriptionId;
                         });
-                        client.save();
+                        Client.findOneAndUpdate({_id: req.params.clientId, "subscriptions._id": subscriptionId},
+                            {$set: {"subscriptions.$.counter": currentSubscription.counter - 1}},
+                            (err, client) => {
+                                if (err) {
+                                    res.send(err);
+                                }
+                                res.json(client);
+                            });
                     }
                 }
             });
