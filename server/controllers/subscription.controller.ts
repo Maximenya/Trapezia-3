@@ -1,23 +1,16 @@
 import Client from "../models/client.model";
 import { Request, Response } from "express";
 
-const VisitController = {
+const SubscriptionController = {
 
     /*
-    {
-    "visitType": "11",
-    "checkIn": "11/20/2018 16:11",
-    "checkOut": "1/20/2018 17:11",
-    "keyNumber": "22",
-    "saleTime": "1/20/2018 16:11",
-    "rent": {
-        "climbingShoes": "0",
-        "harness": "0",
-        "magnesia": "0",
-        "carabine": "0",
-        "griGri": "0"
-        }
-    }
+  {
+	"subscriptionType":"22" ,
+    "saleTime": "11/20/2018 16:11",
+    "firstDate": "11/20/2018",
+    "lastDate":"11/30/2018",
+    "counter": "5"
+}
      */
 
     addNewSubscription: function (req: Request, res: Response) {
@@ -64,7 +57,9 @@ const VisitController = {
             if (err) {
                 res.send(err);
             } else if (client && client.subscriptions) {
-                const activeSubscriptions = client.subscriptions.find((element: any) => { return element.counter > 0 && element.lastDate >= Date.now(); });
+                const activeSubscriptions = client.subscriptions.find((element: any) => {
+                    return element.counter > 0 && element.lastDate >= Date.now();
+                });
                 res.json(activeSubscriptions || []);
             } else {
                 res.json([]);
@@ -73,7 +68,6 @@ const VisitController = {
     },
 
 
-
 };
 
-export default VisitController;
+export default SubscriptionController;

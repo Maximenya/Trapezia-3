@@ -1,22 +1,22 @@
 import { Router } from "express";
-import subscriptiontController from "../controllers/subscription.controller";
+import subscriptionController from "../controllers/subscription.controller";
 
 const router = Router();
 
 router.route("/:clientId")
 /** POST /visits/:clientId - add new visit to client */
-    .post(subscriptiontController.addNewSubscription)
+    .post(subscriptionController.addNewSubscription)
 
 /** GET /visit/:clientIds - get all subscriptions for client */
-    .get(subscriptiontController.getAllSubscriptions);
+    .get(subscriptionController.getAllSubscriptions);
 
 /** GET /visits/:clientId/active - get all subscriptions for client */
 router.route("/:clientId/active")
-    .get(subscriptiontController.getAllActiveSubscriptions);
+    .get(subscriptionController.getAllActiveSubscriptions);
 
 /** GET /visits/:clientId/active - get all subscriptions for client */
 router.route("/:clientId/:subscriptionId")
-    .put(subscriptiontController.updateSubscription);
+    .put(subscriptionController.updateSubscription);
 
 
 export default router;
