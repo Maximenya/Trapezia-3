@@ -82,7 +82,9 @@ const ClientSchema = new Schema({
     birthDate: {type: Date},
     document: {type: String},
     registrationDate: {type: Date},
-    sex: {type: String},
+    sex: {type: String,
+        required: [true, "Client sex is required."]
+    },
     knowFrom: {type: String},
     parentAgreed: {
         type: Boolean,
