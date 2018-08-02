@@ -79,7 +79,10 @@ const ClientSchema = new Schema({
         required: [true, "Client lastName is required."]
     },
     email: {type: String},
-    birthDate: {type: Date},
+    birthDate: {
+        type: Date,
+        default: "01/01/0001"
+    },
     document: {type: String},
     registrationDate: {type: Date},
     sex: {type: String,
