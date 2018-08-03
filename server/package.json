@@ -1,6 +1,7 @@
 {
-  "name": "Trapezia-3",
+  "name": "trapezia-3",
   "version": "0.1.0",
+  "license": "MIT",
   "scripts": {
     "start": "npm run build && npm run serve",
     "build": "npm run build-ts && npm run tslint",
@@ -39,6 +40,6 @@
     "nodemon": "^1.18.3",
     "ts-node": "^5.0.0",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.2"
+    "typescript": "^3.0.1"
   }
 }
