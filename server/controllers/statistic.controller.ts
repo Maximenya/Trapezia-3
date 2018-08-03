@@ -41,7 +41,45 @@ const StatisticController = {
     }, (err) => {
       res.json(err);
     });
-  }
+  },
+
+  knowFromStats: function (_req: Request, res: Response) {
+    Client.aggregate([
+      {
+        $group: { _id: "$knowFrom", count: { $sum: 1 } }
+      }
+    ]).then((stat) => {
+      res.json(stat);
+    }, (err) => {
+      res.json(err);
+    });
+  },
+
+  getRegMonthStats: function (_req: Request, res: Response) {
+    Client.aggregate([
+      {
+        $group: {
+          _id: {
+            year: {
+              $year: {
+                $toDate: "$registrationDate"
+              }
+            },
+            months: {
+              $month: {
+                $toDate: "$registrationDate"
+              }
+            },
+            count: {$sum: 1}
+          }
+        }
+      }
+    ]).then((stat) => {
+      res.json(stat);
+    }, (err) => {
+      res.json(err);
+    });
+  },
 
 
 };

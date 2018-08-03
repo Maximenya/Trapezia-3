@@ -8,7 +8,10 @@ router.route("/")
   .get(clientController.getAllClients)
 
   /** POST /clients - Create new client */
-  .post(clientController.addNewClient);
+  .post(clientController.addNewClient)
+
+  /** DELETE /clients - Delete all clients */
+  .delete(clientController.deleteAllClients);
 
 router.route("/:clientId")
   /** GET /clients/:clientId - Get client */
