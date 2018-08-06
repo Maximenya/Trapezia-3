@@ -65,17 +65,22 @@ const StatisticController = {
                 $toDate: "$registrationDate"
               }
             },
-            months: {
+            month: {
               $month: {
                 $toDate: "$registrationDate"
               }
-            },
-            count: {$sum: 1}
-          }
+            }
+          },
+          count: {$sum: 1}
         }
       }
     ]).then((stat) => {
-      res.json(stat);
+      const statistic = stat.map(function (value) {
+        const item = value._id;
+        item.count = value.count;
+        return item;
+      });
+      res.json(statistic);
     }, (err) => {
       res.json(err);
     });
