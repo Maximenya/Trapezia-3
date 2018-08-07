@@ -45,6 +45,31 @@ const ClientController = {
     });
   },
 
+  searchClients: function (req: Request, res: Response) {
+    const regex = new RegExp("^" + req.params.q + ".*$", "i");
+    Client.find({
+      $or: [
+        {
+          lastName:
+            {
+              $regex: regex
+            }
+        },
+        {
+          firstName:
+            {
+              $regex: regex
+            }
+        }
+      ]
+    }, (err, client) => {
+      if (err) {
+        res.send(err);
+      }
+      res.json(client);
+    }).limit(5);
+  },
+
   updateClient: function (req: Request, res: Response) {
     Client.findOneAndUpdate({ _id: req.params.clientId }, req.body, { new: true }, (err, client) => {
       if (err) {

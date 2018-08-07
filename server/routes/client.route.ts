@@ -23,4 +23,9 @@ router.route("/:clientId")
   /** DELETE /clients/:clientId - Delete client */
   .delete(clientController.deleteClient);
 
+router.route("/search/:q")
+/** GET /clients/search/:q - client auto complete */
+  .get(clientController.searchClients);
+
+
 export default router;
