@@ -18,30 +18,26 @@ const ClientController = {
    } */
   addNewClient: function (req: Request, res: Response) {
     const newClient = new Client(req.body);
-
-    newClient.save((err, client) => {
-      if (err) {
-        res.send(err);
-      }
+    newClient.save().then((client) => {
       res.json(client);
+    }, (err) => {
+      res.json(err);
     });
   },
 
   getClientWithID: function (req: Request, res: Response) {
-    Client.findById(req.params.clientId, (err, client) => {
-      if (err) {
-        res.send(err);
-      }
+    Client.findById(req.params.clientId).then((client) => {
       res.json(client);
+    }, (err) => {
+      res.json(err);
     });
   },
 
   getAllClients: function (_req: Request, res: Response) {
-    Client.find({}, (err, client) => {
-      if (err) {
-        res.send(err);
-      }
-      res.json(client);
+    Client.find({}).then((clients) => {
+      res.json(clients);
+    }, (err) => {
+      res.json(err);
     });
   },
 
@@ -71,29 +67,27 @@ const ClientController = {
   },
 
   updateClient: function (req: Request, res: Response) {
-    Client.findOneAndUpdate({ _id: req.params.clientId }, req.body, { new: true }, (err, client) => {
-      if (err) {
-        res.send(err);
-      }
+    const options = {new: true};
+    Client.findOneAndUpdate({_id: req.params.clientId}, req.body, options).then((client) => {
       res.json(client);
+    }, (err) => {
+      res.json(err);
     });
   },
 
   deleteClient: function (req: Request, res: Response) {
-    Client.remove({ _id: req.params.clientId }, (err) => {
-      if (err) {
-        res.send(err);
-      }
-      res.json({ message: "Successfully deleted client!" });
+    Client.remove({_id: req.params.clientId}).then(() => {
+      res.json({message: "Client successfully deleted!"});
+    }, (err) => {
+      res.json(err);
     });
   },
 
   deleteAllClients: function (_req: Request, res: Response) {
-    Client.remove({}, (err) => {
-      if (err) {
-        res.send(err);
-      }
-      res.json({ message: "Successfully deleted all clients!" });
+    Client.remove({}).then(() => {
+      res.json({message: "Clients successfully deleted!"});
+    }, (err) => {
+      res.json(err);
     });
   }
 

@@ -24,47 +24,45 @@ const VisitController = {
   addNewVisit: function (req: Request, res: Response) {
     const newVisit = req.body;
     const subscriptionId = req.body.subscriptionId;
-    Client.findOneAndUpdate({ _id: req.params.clientId },
-      { $push: { visitsHistory: newVisit } },
-      { runValidators: true },
-      (err, client: any) => {
-        if (err) {
-          res.send(err);
-        } else if (client && client.subscriptions) {
-          if (newVisit.visitType === TYPE_SUBSCRIPTION) {
-            const currentSubscription = client.subscriptions.find((element: any) => {
-              return element._id == subscriptionId;
+    Client.findOneAndUpdate({_id: req.params.clientId},
+      {$push: {visitsHistory: newVisit}},
+      {runValidators: true}).then((client: any) => {
+      if (newVisit.visitType === TYPE_SUBSCRIPTION) {
+        if (client && client.subscriptions) {
+          const currentSubscription = client.subscriptions.find((element: any) => {
+            return element._id == subscriptionId;
+          });
+          if (currentSubscription) {
+            Client.findOneAndUpdate({_id: req.params.clientId, "subscriptions._id": subscriptionId},
+              {$set: {"subscriptions.$.counter": currentSubscription.counter - 1}}).then((client) => {
+              res.json(client);
+            }, (err) => {
+              res.json(err);
             });
-            Client.findOneAndUpdate({ _id: req.params.clientId, "subscriptions._id": subscriptionId },
-              { $set: { "subscriptions.$.counter": currentSubscription.counter - 1 } },
-              (err, client) => {
-                if (err) {
-                  res.send(err);
-                }
-                res.json(client);
-              });
           }
         }
-      });
+      } else {
+        res.json(client);
+      }
+    }, (err) => {
+      res.json(err);
+    });
   },
 
   finishVisit: function (req: Request, res: Response) {
-    Client.findOneAndUpdate({ _id: req.params.clientId, "visitsHistory.checkOut": undefined },
-      { $set: { "visitsHistory.$.checkOut": req.body.checkOut } },
-      (err: any, client: any) => {
-        if (err) {
-          res.send(err);
-        }
-        res.json(client);
-      });
+    Client.findOneAndUpdate({_id: req.params.clientId, "visitsHistory.checkOut": undefined},
+      {$set: {"visitsHistory.$.checkOut": req.body.checkOut}}).then((client) => {
+      res.json(client);
+    }, (err) => {
+      res.json(err);
+    });
   },
 
   loadClimbingNow: function (_req: Request, res: Response) {
-    Client.find({ "visitsHistory.checkOut": undefined }, (err, clients) => {
-      if (err) {
-        res.send(err);
-      }
+    Client.find({"visitsHistory.checkOut": undefined}).then((clients) => {
       res.json(clients);
+    }, (err) => {
+      res.json(err);
     });
   }
 

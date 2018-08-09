@@ -19,4 +19,12 @@ router.route("/age")
 /** GET /statistic/registrationDate - retrieve registration date statistic */
   .get(statisticController.getRegMonthStats);
 
+  router.route("/subscriptions")
+/** GET /statistic/subscriptions - retrieve registration date statistic */
+  .get(statisticController.subscriptionsStats);
+
+  router.route("/attendance")
+/** GET /statistic/attendance - retrieve registration date statistic */
+  .get(statisticController.getAttendanceStats);
+
 export default router;

@@ -15,48 +15,40 @@ const SubscriptionController = {
 
   addNewSubscription: function (req: Request, res: Response) {
     const newSubscription = req.body;
-    Client.findOneAndUpdate({ _id: req.params.clientId },
-      { $push: { subscriptions: newSubscription } },
-      { runValidators: true },
-      (err, client) => {
-        if (err) {
-          res.send(err);
-        }
-        res.json(client);
-      });
+    Client.findOneAndUpdate({_id: req.params.clientId},
+      {$push: {subscriptions: newSubscription}},
+      {runValidators: true}).then((client) => {
+      res.json(client);
+    }, (err) => {
+      res.json(err);
+    });
   },
 
   updateSubscription: function (req: Request, res: Response) {
-    Client.findOneAndUpdate({ _id: req.params.clientId, "subscriptions._id": req.params.subscriptionId },
-      { $set: { "subscriptions.$": req.body } },
-      { new: true },
-      (err, client) => {
-        if (err) {
-          res.send(err);
-        }
-        res.json(client);
-      });
+    Client.findOneAndUpdate({_id: req.params.clientId, "subscriptions._id": req.params.subscriptionId},
+      {$set: {"subscriptions.$": req.body}},
+      {new: true}).then((client) => {
+      res.json(client);
+    }, (err) => {
+      res.json(err);
+    });
   },
 
   getAllSubscriptions: function (req: Request, res: Response) {
-    Client.findOne({ _id: req.params.clientId }, (err, client: any) => {
-      if (err) {
-        res.send(err);
-      } else if (client && client.subscriptions) {
+    Client.findOne({_id: req.params.clientId}).then((client: any) => {
+      if (client && client.subscriptions) {
         res.json(client.subscriptions);
       } else {
-        console.log(client);
-        console.log(client.subscriptions);
         res.json([]);
       }
+    }, (err) => {
+      res.json(err);
     });
   },
 
   getAllActiveSubscriptions: function (req: Request, res: Response) {
-    Client.findOne({ _id: req.params.clientId }, (err, client: any) => {
-      if (err) {
-        res.send(err);
-      } else if (client && client.subscriptions) {
+    Client.findOne({_id: req.params.clientId}).then((client: any) => {
+      if (client && client.subscriptions) {
         const activeSubscriptions = client.subscriptions.find((element: any) => {
           return element.counter > 0 && element.lastDate >= Date.now();
         });
@@ -64,9 +56,10 @@ const SubscriptionController = {
       } else {
         res.json([]);
       }
+    }, (err) => {
+      res.json(err);
     });
   },
-
 
 };
 
