@@ -1,0 +1,47 @@
+scalar Date
+
+type Query {
+  clients: [Client]
+}
+
+type Client {
+  phone: String
+  firstName: String!
+  middleName: String
+  lastName: String!
+  email: String
+  birthDate: Date
+  document: String
+  registrationDate: Date
+  sex: String!
+  knowFrom: String
+  parentAgreed: Boolean
+  subscriptions: [Subscription]
+  visitsHistory: [Visit]
+}
+
+type Subscription {
+  subscriptionType: Int
+  saleTime: Date!
+  firstDate: Date!
+  lastDate: Date!
+  counter: Int!
+}
+
+type Visit {
+  subscriptionId: String
+  visitType: Int!
+  checkIn: Date!
+  checkOut: Date
+  keyNumber: Int
+  saleTime: Date!
+  rent: RentSchema
+}
+
+type RentSchema {
+  climbingShoes: Int
+  harness: Int
+  magnesia: Int
+  carabine: Int
+  griGri: Int
+}

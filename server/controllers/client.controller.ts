@@ -33,12 +33,8 @@ const ClientController = {
     });
   },
 
-  getAllClients: function (_req: Request, res: Response) {
-    Client.find({}).then((clients) => {
-      res.json(clients);
-    }, (err) => {
-      res.json(err);
-    });
+  getAllClients: function () {
+    return Client.find({});
   },
 
   searchClients: function (req: Request, res: Response) {
